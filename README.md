@@ -25,6 +25,25 @@ Install with pip:
 
 (As usual, use of a [venv](https://docs.python.org/3/library/venv.html) or [virtualenv](https://virtualenv.pypa.io) is recommended.)
 
+## Usage
+
+### DB API
+
+    cursor = conn.cursor()
+    cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
+    wrapper = RowWrapper(cursor.description)
+    rows = [wrapper.wrap(row) for row in cursor.fetchall()]
+    for row in rows:
+        print(row.kind, row.rating)
+    
+### csv.DictReader
+
+    reader = csv.DictReader(csv_file)
+    wrapper = RowWrapper(reader.fieldnames)
+    rows = [wrapper.wrap(row) for row in reader]
+    for row in rows:
+        print(row.kind, row.rating)
+
 ## Developing
 
 Requires [tox](https://tox.readthedocs.io). Run `make precommit` tells you if you're OK to commit. For more options, run:
