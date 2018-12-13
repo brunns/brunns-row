@@ -15,7 +15,7 @@ coverage: ## Test coverage report
 lint: check-format flake8 bandit safety ## Lint code
 
 flake8:
-	tox -e flake8 --recreate
+	tox -e flake8
 
 bandit:
 	tox -e bandit

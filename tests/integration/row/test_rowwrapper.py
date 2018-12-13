@@ -51,28 +51,6 @@ def test_wrap_all(db):
     )
 
 
-def test_identifiers_fixed_for_mapping_row():
-    # Given
-    wrapper = RowWrapper(["column-name", "Another One"])
-
-    # When
-    row = wrapper({"column-name": "value", "Another One": "another-value"})
-
-    # Then
-    assert_that(row, has_properties(column_name="value", Another_One="another-value"))
-
-
-def test_identifiers_fixed_for_positional_row():
-    # Given
-    wrapper = RowWrapper(["column-name"])
-
-    # When
-    row = wrapper(["value"])
-
-    # Then
-    assert_that(row, has_properties(column_name="value"))
-
-
 def test_csv_wrapping(csv_file):
     # Given
     reader = csv.DictReader(csv_file)

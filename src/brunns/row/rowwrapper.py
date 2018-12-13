@@ -3,6 +3,13 @@ from __future__ import absolute_import, division, print_function, unicode_litera
 
 import collections
 import logging
+import re
+
+try:
+    from functools import lru_cache
+except ImportError:  # pragma: no cover
+    from functools32 import lru_cache
+
 
 import six
 
@@ -40,12 +47,15 @@ class RowWrapper(object):
             if isinstance(description[0], six.string_types)
             else [col[0] for col in description]
         )
-        self.namedtuple = collections.namedtuple("RowTuple", [self._id_fix(n) for n in self.names], rename=True)
+        self.namedtuple = collections.namedtuple("RowTuple", [self._id_fix(n) for n in self.names])
 
     @staticmethod
-    def _id_fix(name):
-        for old, new in [("-", "_"), (" ", "_")]:
+    @lru_cache()
+    def _id_fix(name):  # TODO: Make this less dreadful.
+        for old, new in [("-", "_"), (" ", "_"), ("+", "_"), ("/", "_"), ("*", "_"), ("%", "_"), ("&", "_")]:
             name = name.replace(old, new)
+        if re.match(r"^\d", name):
+            name = "a_{0}".format(name)
         return name
 
     def wrap(self, row):
