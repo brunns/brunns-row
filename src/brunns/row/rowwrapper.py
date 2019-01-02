@@ -43,15 +43,22 @@ class RowWrapper(object):
         )
         fixed_names = self._id_fix(original_names)
         self.names = collections.OrderedDict(zip(fixed_names, original_names))
-        print(self.names)
         self.namedtuple = collections.namedtuple("RowTuple", fixed_names)
 
     @staticmethod
     def _id_fix(names):  # TODO: Make this less dreadful.
         fixed = []
-        print(names)
         for name in names:
-            for old, new in [("-", "_"), (" ", "_"), ("+", "_"), ("/", "_"), ("*", "_"), ("%", "_"), ("&", "_"), ("$", "_")]:
+            for old, new in [
+                ("-", "_"),
+                (" ", "_"),
+                ("+", "_"),
+                ("/", "_"),
+                ("*", "_"),
+                ("%", "_"),
+                ("&", "_"),
+                ("$", "_"),
+            ]:
                 name = name.replace(old, new)
             if re.match(r"^\d", name):
                 name = "a_{0}".format(name)
