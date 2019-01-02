@@ -30,3 +30,25 @@ def test_identifiers_fixed_for_positional_row():
 
     # Then
     assert_that(row, has_properties(column_name="value", Another_One="another", a_3rd_Column="yet another"))
+
+
+def test_column_identifiers_deduplication_for_mapping_row():
+    # Given
+    wrapper = RowWrapper(["column-name", "column$name"])
+
+    # When
+    row = wrapper({"column-name": "value", "column$name": "another-value"})
+
+    # Then
+    assert_that(row, has_properties(column_name="value", column_name_2="another-value"))
+
+
+def test_column_identifiers_deduplication_for_positional_row():
+    # Given
+    wrapper = RowWrapper(["column-name", "column-name", "column$name"])
+
+    # When
+    row = wrapper(["value", "another", "yet another"])
+
+    # Then
+    assert_that(row, has_properties(column_name="value", column_name_2="another", column_name_3="yet another"))

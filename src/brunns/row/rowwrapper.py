@@ -5,12 +5,6 @@ import collections
 import logging
 import re
 
-try:
-    from functools import lru_cache
-except ImportError:  # pragma: no cover
-    from functools32 import lru_cache
-
-
 import six
 
 logger = logging.getLogger(__name__)
@@ -42,28 +36,42 @@ class RowWrapper(object):
     """
 
     def __init__(self, description):
-        self.names = (
+        original_names = (
             [col for col in description]
             if isinstance(description[0], six.string_types)
             else [col[0] for col in description]
         )
-        self.namedtuple = collections.namedtuple("RowTuple", [self._id_fix(n) for n in self.names])
+        fixed_names = self._id_fix(original_names)
+        self.names = collections.OrderedDict(zip(fixed_names, original_names))
+        print(self.names)
+        self.namedtuple = collections.namedtuple("RowTuple", fixed_names)
 
     @staticmethod
-    @lru_cache()
-    def _id_fix(name):  # TODO: Make this less dreadful.
-        for old, new in [("-", "_"), (" ", "_"), ("+", "_"), ("/", "_"), ("*", "_"), ("%", "_"), ("&", "_")]:
-            name = name.replace(old, new)
-        if re.match(r"^\d", name):
-            name = "a_{0}".format(name)
-        return name
+    def _id_fix(names):  # TODO: Make this less dreadful.
+        fixed = []
+        print(names)
+        for name in names:
+            for old, new in [("-", "_"), (" ", "_"), ("+", "_"), ("/", "_"), ("*", "_"), ("%", "_"), ("&", "_"), ("$", "_")]:
+                name = name.replace(old, new)
+            if re.match(r"^\d", name):
+                name = "a_{0}".format(name)
+            while name in fixed:
+                name = RowWrapper._increment(name)
+            fixed.append(name)
+        return fixed
+
+    @staticmethod
+    def _increment(s):
+        if re.match(r".*\d+$", s):
+            return re.sub(r"\d+$", lambda n: str(int(n.group(0)) + 1), s)
+        return s + "_2"
 
     def wrap(self, row):
         """Return row tuple for row."""
         return (
-            self.namedtuple(**{self._id_fix(k): row[k] for k in self.names})
+            self.namedtuple(**{f: row[o] for f, o in self.names.items()})
             if isinstance(row, collections.Mapping)
-            else self.namedtuple(**{self._id_fix(n): r for n, r in zip(self.names, row)})
+            else self.namedtuple(**{f: r for f, r in zip(self.names.keys(), row)})
         )
 
     def wrap_all(self, rows):

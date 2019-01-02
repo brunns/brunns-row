@@ -61,6 +61,5 @@ setup(
         # "python-box~=3.2",
         # 'singledispatch~=3.4;python_version<"3.4"',
         # 'pathlib~=1.0;python_version<"3.4"',
-        'functools32~=3.2;python_version<"3.2"',
     ],
 )
