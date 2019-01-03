@@ -41,34 +41,32 @@ class RowWrapper(object):
             if isinstance(description[0], six.string_types)
             else [col[0] for col in description]
         )
-        fixed_names = self._id_fix(original_names)
-        self.names = collections.OrderedDict(zip(fixed_names, original_names))
-        self.namedtuple = collections.namedtuple("RowTuple", fixed_names)
+        self.ids_and_column_names = self._ids_and_column_names(original_names)
+        self.namedtuple = collections.namedtuple("RowTuple", self.ids_and_column_names.keys())
 
     @staticmethod
-    def _id_fix(names):  # TODO: Make this less dreadful.
-        fixed = []
+    def _ids_and_column_names(names):
+        """Ensure all column names are unique identifiers."""
+        fixed = collections.OrderedDict()
         for name in names:
-            for old, new in [
-                ("-", "_"),
-                (" ", "_"),
-                ("+", "_"),
-                ("/", "_"),
-                ("*", "_"),
-                ("%", "_"),
-                ("&", "_"),
-                ("$", "_"),
-            ]:
-                name = name.replace(old, new)
-            if re.match(r"^\d", name):
-                name = "a_{0}".format(name)
-            while name in fixed:
-                name = RowWrapper._increment(name)
-            fixed.append(name)
+            identifier = RowWrapper._make_identifier(name)
+            while identifier in fixed:
+                identifier = RowWrapper._increment_numeric_suffix(identifier)
+            fixed[identifier] = name
         return fixed
 
     @staticmethod
-    def _increment(s):
+    def _make_identifier(string):
+        """Attempt to convert string into a valid identifier by replacing invalid characters with "_"s,
+        and prefixing with "a_" if necessary."""
+        string = re.sub(r"[ \-+/\\*%&$£#@.,;:'" "?<>]", "_", string)
+        if re.match(r"^\d", string):
+            string = "a_{0}".format(string)
+        return string
+
+    @staticmethod
+    def _increment_numeric_suffix(s):
+        """Increment (or add) numeric suffix to identifier."""
         if re.match(r".*\d+$", s):
             return re.sub(r"\d+$", lambda n: str(int(n.group(0)) + 1), s)
         return s + "_2"
@@ -76,9 +74,9 @@ class RowWrapper(object):
     def wrap(self, row):
         """Return row tuple for row."""
         return (
-            self.namedtuple(**{f: row[o] for f, o in self.names.items()})
+            self.namedtuple(**{f: row[o] for f, o in self.ids_and_column_names.items()})
             if isinstance(row, collections.Mapping)
-            else self.namedtuple(**{f: r for f, r in zip(self.names.keys(), row)})
+            else self.namedtuple(**{f: r for f, r in zip(self.ids_and_column_names.keys(), row)})
         )
 
     def wrap_all(self, rows):
