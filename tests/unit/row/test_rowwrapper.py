@@ -52,3 +52,14 @@ def test_column_identifiers_deduplication_for_positional_row():
 
     # Then
     assert_that(row, has_properties(column_name="value", column_name_2="another", column_name_3="yet another"))
+
+
+def test_lower_cased_identifiers():
+    # Given
+    wrapper = RowWrapper(["column-name", "Another One", "3rd Column"], force_lower_case_ids=True)
+
+    # When
+    row = wrapper({"column-name": "value", "Another One": "another-value", "3rd Column": "3rd value"})
+
+    # Then
+    assert_that(row, has_properties(column_name="value", another_one="another-value", a_3rd_column="3rd value"))

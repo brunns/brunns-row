@@ -35,21 +35,23 @@ class RowWrapper(object):
     >>> rows = [wrapper.wrap(row) for row in reader]
     """
 
-    def __init__(self, description):
+    def __init__(self, description, force_lower_case_ids=False):
         original_names = (
             [col for col in description]
             if isinstance(description[0], six.string_types)
             else [col[0] for col in description]
         )
-        self.ids_and_column_names = self._ids_and_column_names(original_names)
+        self.ids_and_column_names = self._ids_and_column_names(original_names, force_lower_case=force_lower_case_ids)
         self.namedtuple = collections.namedtuple("RowTuple", self.ids_and_column_names.keys())
 
     @staticmethod
-    def _ids_and_column_names(names):
+    def _ids_and_column_names(names, force_lower_case=False):
         """Ensure all column names are unique identifiers."""
         fixed = collections.OrderedDict()
         for name in names:
             identifier = RowWrapper._make_identifier(name)
+            if force_lower_case:
+                identifier = identifier.lower()
             while identifier in fixed:
                 identifier = RowWrapper._increment_numeric_suffix(identifier)
             fixed[identifier] = name
@@ -74,9 +76,9 @@ class RowWrapper(object):
     def wrap(self, row):
         """Return row tuple for row."""
         return (
-            self.namedtuple(**{f: row[o] for f, o in self.ids_and_column_names.items()})
+            self.namedtuple(**{ident: row[column_name] for ident, column_name in self.ids_and_column_names.items()})
             if isinstance(row, collections.Mapping)
-            else self.namedtuple(**{f: r for f, r in zip(self.ids_and_column_names.keys(), row)})
+            else self.namedtuple(**{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)})
         )
 
     def wrap_all(self, rows):
