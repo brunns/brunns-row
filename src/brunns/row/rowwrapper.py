@@ -36,12 +36,12 @@ class RowWrapper(object):
     """
 
     def __init__(self, description, force_lower_case_ids=False):
-        original_names = (
+        column_names = (
             [col for col in description]
             if isinstance(description[0], six.string_types)
             else [col[0] for col in description]
         )
-        self.ids_and_column_names = self._ids_and_column_names(original_names, force_lower_case=force_lower_case_ids)
+        self.ids_and_column_names = self._ids_and_column_names(column_names, force_lower_case=force_lower_case_ids)
         self.namedtuple = collections.namedtuple("RowTuple", self.ids_and_column_names.keys())
 
     @staticmethod

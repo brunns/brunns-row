@@ -1,6 +1,6 @@
 # brunns-row
 
-Convenience wrapper for DB API and csv.DictReader rows, and similar.
+Convenience wrapper for DB API and csv.DictReader rows, and similar, inspired by Greg Stein's lovely [dtuple module](https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access/).
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![Build Status](https://travis-ci.org/brunns/brunns-row.svg?branch=master&logo=travis)](https://travis-ci.org/brunns/brunns-row)
@@ -27,6 +27,14 @@ Install with pip:
 
 ## Usage
 
+The basic approach is to create a wrapper object from some kind of description - typically a 
+[DBAPI cursor](https://www.python.org/dev/peps/pep-0249/#cursor-objects)'s 
+[description](https://www.python.org/dev/peps/pep-0249/#description), or a 
+[csv.DictReader](https://docs.python.org/3/library/csv.html#csv.DictReader)'s 
+[fieldnames](https://docs.python.org/3/library/csv.html#csv.csvreader.fieldnames) attribute - then to use the wrapper's 
+`wrap(row)` method to wrap each row. `wrap(row)` returns an object from which you can access the row's fields as 
+attributes. A couple of simple examples:
+
 ### DB API
 
     cursor = conn.cursor()
@@ -43,6 +51,10 @@ Install with pip:
     rows = [wrapper.wrap(row) for row in reader]
     for row in rows:
         print(row.kind, row.rating)
+
+Attributes names are simply the column names where possible, converted to valid identifiers where necessary by replacing 
+invalid characters with "\_"s, prefixing any leading numerics with "a\_", and de-duplicating where necessary by adding 
+numeric suffixes.
 
 ## Developing
 
