@@ -37,20 +37,24 @@ attributes. A couple of simple examples:
 
 ### DB API
 
-    cursor = conn.cursor()
-    cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
-    wrapper = RowWrapper(cursor.description)
-    rows = [wrapper.wrap(row) for row in cursor.fetchall()]
-    for row in rows:
-        print(row.kind, row.rating)
+```python
+cursor = conn.cursor()
+cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
+wrapper = RowWrapper(cursor.description)
+rows = [wrapper.wrap(row) for row in cursor.fetchall()]
+for row in rows:
+    print(row.kind, row.rating)
+```
     
 ### csv.DictReader
 
-    reader = csv.DictReader(csv_file)
-    wrapper = RowWrapper(reader.fieldnames)
-    rows = [wrapper.wrap(row) for row in reader]
-    for row in rows:
-        print(row.kind, row.rating)
+```python
+reader = csv.DictReader(csv_file)
+wrapper = RowWrapper(reader.fieldnames)
+rows = [wrapper.wrap(row) for row in reader]
+for row in rows:
+    print(row.kind, row.rating)
+```
 
 Attributes names are simply the column names where possible, converted to valid identifiers where necessary by replacing 
 invalid characters with "\_"s, prefixing any leading numerics with "a\_", and de-duplicating where necessary by adding 
