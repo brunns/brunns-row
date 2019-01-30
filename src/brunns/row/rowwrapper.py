@@ -1,11 +1,21 @@
 # encoding=utf-8
 from __future__ import absolute_import, division, print_function, unicode_literals
 
-import collections
 import logging
 import re
+from collections import OrderedDict
 
-import six
+from six import PY3, string_types
+
+try:
+    from dataclasses import make_dataclass
+except ImportError:  # pragma: no cover
+    from collections import namedtuple as make_dataclass
+
+if PY3:
+    from collections.abc import Mapping
+else:  # pragma: no cover
+    from collections import Mapping
 
 logger = logging.getLogger(__name__)
 
@@ -38,16 +48,16 @@ class RowWrapper(object):
     def __init__(self, description, force_lower_case_ids=False):
         column_names = (
             [col for col in description]
-            if isinstance(description[0], six.string_types)
+            if isinstance(description[0], string_types)
             else [col[0] for col in description]
         )
         self.ids_and_column_names = self._ids_and_column_names(column_names, force_lower_case=force_lower_case_ids)
-        self.namedtuple = collections.namedtuple("RowTuple", self.ids_and_column_names.keys())
+        self.dataclass = make_dataclass("RowTuple", self.ids_and_column_names.keys())
 
     @staticmethod
     def _ids_and_column_names(names, force_lower_case=False):
         """Ensure all column names are unique identifiers."""
-        fixed = collections.OrderedDict()
+        fixed = OrderedDict()
         for name in names:
             identifier = RowWrapper._make_identifier(name)
             if force_lower_case:
@@ -76,9 +86,9 @@ class RowWrapper(object):
     def wrap(self, row):
         """Return row tuple for row."""
         return (
-            self.namedtuple(**{ident: row[column_name] for ident, column_name in self.ids_and_column_names.items()})
-            if isinstance(row, collections.Mapping)
-            else self.namedtuple(**{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)})
+            self.dataclass(**{ident: row[column_name] for ident, column_name in self.ids_and_column_names.items()})
+            if isinstance(row, Mapping)
+            else self.dataclass(**{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)})
         )
 
     def wrap_all(self, rows):
