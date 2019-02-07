@@ -1,21 +1,13 @@
 # encoding=utf-8
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import logging
 import re
 from collections import OrderedDict
-
-from six import PY3, string_types
+from collections.abc import Mapping
 
 try:
     from dataclasses import make_dataclass
 except ImportError:  # pragma: no cover
     from collections import namedtuple as make_dataclass
-
-if PY3:
-    from collections.abc import Mapping
-else:  # pragma: no cover
-    from collections import Mapping
 
 logger = logging.getLogger(__name__)
 
@@ -47,9 +39,7 @@ class RowWrapper(object):
 
     def __init__(self, description, force_lower_case_ids=False):
         column_names = (
-            [col for col in description]
-            if isinstance(description[0], string_types)
-            else [col[0] for col in description]
+            [col for col in description] if isinstance(description[0], str) else [col[0] for col in description]
         )
         self.ids_and_column_names = self._ids_and_column_names(column_names, force_lower_case=force_lower_case_ids)
         self.dataclass = make_dataclass("RowTuple", self.ids_and_column_names.keys())
