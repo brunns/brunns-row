@@ -16,7 +16,8 @@ Convenience wrapper for DB API and csv.DictReader rows, and similar, inspired by
 [![GitHub issues-closed](https://img.shields.io/github/issues-closed/brunns/brunns-row.svg?logo=github)](https://github.com/brunns/brunns-row/issues?q=is%3Aissue+is%3Aclosed)
 [![GitHub pull-requests](https://img.shields.io/github/issues-pr/brunns/brunns-row.svg?logo=github)](https://github.com/brunns/brunns-row/pulls)
 [![GitHub pull-requests closed](https://img.shields.io/github/issues-pr-closed/brunns/brunns-row.svg?logo=github)](https://github.com/brunns/brunns-row/pulls?utf8=%E2%9C%93&q=is%3Apr+is%3Aclosed)
-[![](https://tokei.rs/b1/github/brunns/brunns-row)](https://github.com/brunns/brunns-row)
+[![Coverage](https://img.shields.io/coveralls/github/brunns/brunns-row.svg)](https://coveralls.io/github/brunns/brunns-row)
+[![Lines of Code](https://tokei.rs/b1/github/brunns/brunns-row)](https://github.com/brunns/brunns-row)
 
 ## Setup
 
