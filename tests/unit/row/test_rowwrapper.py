@@ -15,10 +15,15 @@ def test_identifiers_fixed_for_mapping_row():
     wrapper = RowWrapper(["column-name", "Another One", "3rd Column"])
 
     # When
-    row = wrapper({"column-name": "value", "Another One": "another-value", "3rd Column": "3rd value"})
+    row = wrapper(
+        {"column-name": "value", "Another One": "another-value", "3rd Column": "3rd value"}
+    )
 
     # Then
-    assert_that(row, has_properties(column_name="value", Another_One="another-value", a_3rd_Column="3rd value"))
+    assert_that(
+        row,
+        has_properties(column_name="value", Another_One="another-value", a_3rd_Column="3rd value"),
+    )
 
 
 def test_identifiers_fixed_for_positional_row():
@@ -29,7 +34,9 @@ def test_identifiers_fixed_for_positional_row():
     row = wrapper(["value", "another", "yet another"])
 
     # Then
-    assert_that(row, has_properties(column_name="value", Another_One="another", a_3rd_Column="yet another"))
+    assert_that(
+        row, has_properties(column_name="value", Another_One="another", a_3rd_Column="yet another")
+    )
 
 
 def test_column_identifiers_deduplication_for_mapping_row():
@@ -51,7 +58,10 @@ def test_column_identifiers_deduplication_for_positional_row():
     row = wrapper(["value", "another", "yet another"])
 
     # Then
-    assert_that(row, has_properties(column_name="value", column_name_2="another", column_name_3="yet another"))
+    assert_that(
+        row,
+        has_properties(column_name="value", column_name_2="another", column_name_3="yet another"),
+    )
 
 
 def test_lower_cased_identifiers():
@@ -59,7 +69,12 @@ def test_lower_cased_identifiers():
     wrapper = RowWrapper(["column-name", "Another One", "3rd Column"], force_lower_case_ids=True)
 
     # When
-    row = wrapper({"column-name": "value", "Another One": "another-value", "3rd Column": "3rd value"})
+    row = wrapper(
+        {"column-name": "value", "Another One": "another-value", "3rd Column": "3rd value"}
+    )
 
     # Then
-    assert_that(row, has_properties(column_name="value", another_one="another-value", a_3rd_column="3rd value"))
+    assert_that(
+        row,
+        has_properties(column_name="value", another_one="another-value", a_3rd_column="3rd value"),
+    )

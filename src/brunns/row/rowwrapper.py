@@ -39,9 +39,13 @@ class RowWrapper(object):
 
     def __init__(self, description, force_lower_case_ids=False):
         column_names = (
-            [col for col in description] if isinstance(description[0], str) else [col[0] for col in description]
+            [col for col in description]
+            if isinstance(description[0], str)
+            else [col[0] for col in description]
         )
-        self.ids_and_column_names = self._ids_and_column_names(column_names, force_lower_case=force_lower_case_ids)
+        self.ids_and_column_names = self._ids_and_column_names(
+            column_names, force_lower_case=force_lower_case_ids
+        )
         self.dataclass = make_dataclass("RowTuple", self.ids_and_column_names.keys())
 
     @staticmethod
@@ -76,9 +80,16 @@ class RowWrapper(object):
     def wrap(self, row):
         """Return row tuple for row."""
         return (
-            self.dataclass(**{ident: row[column_name] for ident, column_name in self.ids_and_column_names.items()})
+            self.dataclass(
+                **{
+                    ident: row[column_name]
+                    for ident, column_name in self.ids_and_column_names.items()
+                }
+            )
             if isinstance(row, Mapping)
-            else self.dataclass(**{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)})
+            else self.dataclass(
+                **{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)}
+            )
         )
 
     def wrap_all(self, rows):
