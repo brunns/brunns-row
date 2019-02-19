@@ -45,6 +45,7 @@ matrix:
       env:
         - TOX_ENV=safety
     - python: 3.6
+      secure: "emsWrvhfWM53N/t34n6cUJXvPuH242Oc6ZwLvRFswqizD+zw5wi/sDihTQNs9IUHj7Q7doREEb3CueMtR0H63ulUc/PIw214h6f71K73ORmsk6KOS2PST48NPX2daaniydL6tDA5icKmjhoE3dNk2v1bKQNRjJDAmy6Lc9XuTHhmiNAHHxF57fBr8g/XSKp1Cx5tzoGIb/drz7tSIk9fignCta44D9Hs6H8sFSF4nNcDeYmuBG0wK1MEgvJzFpnxyqKLsubWMwcOois/T9UtZvQ7AheSYK0PEbGS6dcKRQEceRYp3M1EVUeBE9dxd49EZ3w+oZqkS42re27lvbTmYU0Rn6jeZRQ8ai27Wx+lEgx30f578cI6s6yj5oYT1RM1nTNh6g7CiiGAH647j86FcRKPyltsM39/m51Ch8eqqs4g4n4iBdXAnFv85k8dYtqH53YW1Oh8+3FkCgWe3nZevMVnc2lIMSxksQ9c1jZaeG0UwSqBL/dPmvaDQz+JzZDBWp/JiXYOD1NzL1xfjG9AefgzxZGHuUEtTWUOPggANhx14PqBnMULzyTMWhJN8TMtfbktZXxeOtFUTkKafIuJGGGVKSHCti2GSv5FCJMwVLksXcAHNZVylHqVnIYRFIDyyqHlm7eYkMgtMiEfHKTtE673sULMfjiTVOP27IeE+4g="
       env:
         - TOX_ENV=publish-coverage
 install:
