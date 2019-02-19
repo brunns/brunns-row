@@ -1,0 +1,12 @@
+jobs:
+  build:
+    docker:
+      - image: python:3.7
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command:  tox -e py37
