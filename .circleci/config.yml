@@ -1,5 +1,38 @@
 jobs:
-  build:
+  build34:
+    docker:
+      - image: python:3.4
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e py34
+  build35:
+    docker:
+      - image: python:3.5
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e py35
+  build36:
+    docker:
+      - image: python:3.6
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e py36
+  build37:
     docker:
       - image: python:3.7
     steps:
@@ -9,4 +42,77 @@ jobs:
           command: pip install --upgrade tox
       - run:
           name: test
-          command:  tox -e py37
+          command: tox -e py37
+  check-format:
+    docker:
+      - image: python:3.7
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e check-format
+  flake8:
+    docker:
+      - image: python:3.7
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e flake8
+  bandit:
+    docker:
+      - image: python:3.7
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e bandit
+  safety:
+    docker:
+      - image: python:3.7
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e safety
+  publish-coverage:
+    docker:
+      - image: python:3.7
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          environment:
+            CODACY_API_BASE_URL: $CODACY_API_BASE_URL
+          command: tox -e publish-coverage
+
+workflows:
+  version: 2
+  tests:
+    jobs:
+      - build34
+      - build35
+      - build36
+      - build37
+  lint:
+    jobs:
+      - check-format
+      - flake8
+      - bandit
+      - safety
+      - publish-coverage
