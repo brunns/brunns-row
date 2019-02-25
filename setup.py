@@ -47,17 +47,5 @@ setup(
         "Topic :: Software Development :: Testing",
     ],
     python_requires=">=3.4",
-    install_requires=[
-        # "furl~=2.0",
-        # "attrs~=18.0",
-        # "more_itertools~=4.0",
-        # "pyhamcrest~=1.9",
-        # "pytest~=4.0",
-        # 'enum34~=1.0;python_version<"3.4"',
-        # "pendulum~=2.0",
-        # "beautifulsoup4~=4.0",
-        # "python-box~=3.2",
-        # 'singledispatch~=3.4;python_version<"3.4"',
-        # 'pathlib~=1.0;python_version<"3.4"',
-    ],
+    install_requires=[],
 )
