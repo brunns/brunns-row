@@ -12,7 +12,7 @@ except ImportError:  # pragma: no cover
 logger = logging.getLogger(__name__)
 
 
-class RowWrapper(object):
+class RowWrapper:
     """
     Build lightweight row tuples for DB API and csv.DictReader rows.
 
