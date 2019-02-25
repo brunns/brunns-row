@@ -86,8 +86,6 @@ jobs:
           command: pip install --upgrade tox
       - run:
           name: test
-          environment:
-            CODACY_API_BASE_URL: $CODACY_API_BASE_URL
           command: tox -e publish-coverage
 
 workflows:
