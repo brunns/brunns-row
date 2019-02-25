@@ -76,17 +76,6 @@ jobs:
       - run:
           name: test
           command: tox -e bandit
-  safety:
-    docker:
-      - image: python:3.7
-    steps:
-      - checkout
-      - run:
-          name: install-tox
-          command: pip install --upgrade tox
-      - run:
-          name: test
-          command: tox -e safety
   publish-coverage:
     docker:
       - image: python:3.7
@@ -114,5 +103,4 @@ workflows:
       - check-format
       - flake8
       - bandit
-      - safety
       - publish-coverage
