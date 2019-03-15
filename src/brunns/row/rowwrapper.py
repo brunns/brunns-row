@@ -16,8 +16,8 @@ class RowWrapper:
     """
     Build lightweight row tuples for DB API and csv.DictReader rows.
 
-    Inspired by Greg Stein's lovely dtuple module,
-    https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access,
+    Inspired by Greg Stein's lovely
+    `dtuple module <https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access>`_,
     which I can't find online any longer, isn't on pypi, and doesn't support Python 3 without some fixes.
 
     Initializer takes a sequence of column descriptions, either names, or tuples of names and other metadata (which
