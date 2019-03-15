@@ -24,7 +24,7 @@ copyright = '2019, Simon Brunning'
 author = 'Simon Brunning'
 
 # The short X.Y version
-version = ''
+version = '2.0'
 # The full version, including alpha/beta/rc tags
 release = '2.0.0'
 
@@ -41,6 +41,7 @@ release = '2.0.0'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.autosummary',
+    'sphinx_autodoc_typehints',
     'sphinx.ext.doctest',
     'sphinx.ext.coverage',
     'sphinx.ext.viewcode',

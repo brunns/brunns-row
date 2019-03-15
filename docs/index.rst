@@ -10,7 +10,11 @@ Welcome to brunns-row's documentation!
    :maxdepth: 2
    :caption: Contents:
 
+API
+===
 
+.. automodule:: brunns.row.rowwrapper
+    :members:
 
 Indices and tables
 ==================

@@ -47,6 +47,7 @@ setup(
     ],
     python_requires=">=3.4",
     install_requires=[
+        'typing~=3.6;python_version<"3.5"',
         # "furl~=2.0",
         # "attrs~=18.0",
         # "more_itertools~=4.0",

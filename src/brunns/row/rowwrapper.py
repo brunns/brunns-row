@@ -2,7 +2,8 @@
 import logging
 import re
 from collections import OrderedDict
-from collections.abc import Mapping
+from collections import abc as abc
+from typing import Iterable, Union, Tuple, Mapping, Sequence, Any
 
 try:
     from dataclasses import make_dataclass
@@ -37,7 +38,11 @@ class RowWrapper(object):
     >>> rows = [wrapper.wrap(row) for row in reader]
     """
 
-    def __init__(self, description, force_lower_case_ids=False):
+    def __init__(self, description: Iterable[Union[str, Tuple[str]]], force_lower_case_ids: bool = False) -> None:
+        """
+        :param description: The description, yknow.
+        :param force_lower_case_ids: Force all IDs to be lower case.
+        """
         column_names = (
             [col for col in description] if isinstance(description[0], str) else [col[0] for col in description]
         )
@@ -73,15 +78,16 @@ class RowWrapper(object):
             return re.sub(r"\d+$", lambda n: str(int(n.group(0)) + 1), s)
         return s + "_2"
 
-    def wrap(self, row):
+    def wrap(self, row: Union[Mapping[str, Any], Sequence[Any]]):
         """Return row tuple for row."""
-        return (
+        wrapped = (
             self.dataclass(**{ident: row[column_name] for ident, column_name in self.ids_and_column_names.items()})
-            if isinstance(row, Mapping)
+            if isinstance(row, abc.Mapping)
             else self.dataclass(**{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)})
         )
+        return wrapped
 
-    def wrap_all(self, rows):
+    def wrap_all(self, rows: Iterable[Union[Mapping[str, Any], Sequence[Any]]]):
         """Return row tuple for each row in rows."""
         return (self.wrap(r) for r in rows)
 
