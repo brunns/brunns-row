@@ -2,7 +2,6 @@
 import logging
 import re
 from collections import OrderedDict
-from collections import abc as abc
 from typing import Iterable, Union, Tuple, Mapping, Sequence, Any
 
 try:
@@ -38,7 +37,9 @@ class RowWrapper:
     >>> rows = [wrapper.wrap(row) for row in reader]
     """
 
-    def __init__(self, description: Iterable[Union[str, Tuple[str]]], force_lower_case_ids: bool = False) -> None:
+    def __init__(
+        self, description: Iterable[Union[str, Tuple[str]]], force_lower_case_ids: bool = False
+    ) -> None:
         column_names = (
             [col for col in description]
             if isinstance(description[0], str)
