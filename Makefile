@@ -29,7 +29,11 @@ format: ## Format code
 piprot: ## Check for outdated dependencies
 	tox -e piprot
 
-precommit: test lint coverage ## Pre-commit targets
+.PHONY: docs
+docs:  ## Generate documentation
+	tox -e docs
+
+precommit: test lint coverage docs ## Pre-commit targets
 	@ python -m this
 
 recreate: ## Recreate tox environments

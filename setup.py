@@ -47,5 +47,5 @@ setup(
         "Topic :: Software Development :: Testing",
     ],
     python_requires=">=3.4",
-    install_requires=[],
+    install_requires=['typing~=3.6;python_version<"3.5"'],
 )
