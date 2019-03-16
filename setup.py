@@ -27,7 +27,7 @@ setup(
     long_description_content_type="text/markdown",
     author="Simon Brunning",
     author_email="simon@brunningonline.net",
-    url="https://github.com/brunns/brunns-row/",
+    url="https://brunns-row.readthedocs.io",
     packages=find_packages(where="src"),
     package_dir={"": "src"},
     package_data={"": ["README.md"]},
