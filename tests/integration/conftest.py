@@ -1,11 +1,9 @@
 # encoding=utf-8
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import logging
 import sqlite3
+from io import StringIO
 
 import pytest
-from six import StringIO
 
 logger = logging.getLogger(__name__)
 

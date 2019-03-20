@@ -1,12 +1,11 @@
 # encoding=utf-8
-from __future__ import absolute_import, division, print_function, unicode_literals
-
 import csv
 import logging
 
-from hamcrest import assert_that, contains, has_properties
-
 from brunns.row.rowwrapper import RowWrapper
+from hamcrest import assert_that
+from hamcrest import contains
+from hamcrest import has_properties
 
 logger = logging.getLogger(__name__)
 
