@@ -2,12 +2,7 @@
 import logging
 import re
 from collections import OrderedDict
-from typing import Any
-from typing import Iterable
-from typing import Mapping
-from typing import Sequence
-from typing import Tuple
-from typing import Union
+from typing import Any, Iterable, Mapping, Sequence, Tuple, Union
 
 try:
     from dataclasses import make_dataclass

@@ -2,8 +2,7 @@
 import logging
 
 from brunns.row.rowwrapper import RowWrapper
-from hamcrest import assert_that
-from hamcrest import has_properties
+from hamcrest import assert_that, has_properties
 
 logger = logging.getLogger(__name__)
 
