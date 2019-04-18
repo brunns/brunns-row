@@ -1,5 +1,7 @@
 language: python
 matrix:
+  allow_failures:
+    - os: windows
   include:
     - python: 3.4
       env:
@@ -49,6 +51,6 @@ matrix:
       env:
         - TOX_ENV=docs
 install:
- - pip install --upgrade tox
+  - pip install --upgrade tox
 script:
- - tox -e $TOX_ENV
+  - tox -e $TOX_ENV
