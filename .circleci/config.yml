@@ -1,15 +1,4 @@
 jobs:
-  build34:
-    docker:
-      - image: python:3.4
-    steps:
-      - checkout
-      - run:
-          name: install-tox
-          command: pip install --upgrade tox
-      - run:
-          name: test
-          command: tox -e py34
   build35:
     docker:
       - image: python:3.5
@@ -92,7 +81,6 @@ workflows:
   version: 2
   tests:
     jobs:
-      - build34
       - build35
       - build36
       - build37
