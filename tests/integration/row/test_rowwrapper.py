@@ -2,8 +2,9 @@
 import csv
 import logging
 
-from brunns.row.rowwrapper import RowWrapper
 from hamcrest import assert_that, contains, has_properties
+
+from brunns.row.rowwrapper import RowWrapper
 
 logger = logging.getLogger(__name__)
 

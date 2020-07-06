@@ -1,8 +1,9 @@
 # encoding=utf-8
 import logging
 
-from brunns.row.rowwrapper import RowWrapper
 from hamcrest import assert_that, has_properties
+
+from brunns.row.rowwrapper import RowWrapper
 
 logger = logging.getLogger(__name__)
 
