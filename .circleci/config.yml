@@ -1,15 +1,4 @@
 jobs:
-  build35:
-    docker:
-      - image: python:3.5
-    steps:
-      - checkout
-      - run:
-          name: install-tox
-          command: pip install --upgrade tox
-      - run:
-          name: test
-          command: tox -e py35
   build36:
     docker:
       - image: python:3.6
@@ -32,6 +21,28 @@ jobs:
       - run:
           name: test
           command: tox -e py37
+  build38:
+    docker:
+      - image: python:3.8
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e py38
+  build39:
+    docker:
+      - image: python:3.9
+    steps:
+      - checkout
+      - run:
+          name: install-tox
+          command: pip install --upgrade tox
+      - run:
+          name: test
+          command: tox -e py39
   check-format:
     docker:
       - image: python:3.7

@@ -4,7 +4,7 @@ default: help
 .PHONY: help
 
 test: ## Run tests
-	tox -e py35,py36,py37,py38
+	tox -e py36,py39
 
 coverage: ## Test coverage report
 	tox -e coverage
