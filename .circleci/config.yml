@@ -76,28 +76,29 @@ jobs:
       - run:
           name: test
           command: tox -e bandit
-  publish-coverage:
-    docker:
-      - image: python:3.7
-    steps:
-      - checkout
-      - run:
-          name: install-tox
-          command: pip install --upgrade tox
-      - run:
-          name: test
-          command: tox -e publish-coverage
+#  publish-coverage:
+#    docker:
+#      - image: python:3.7
+#    steps:
+#      - checkout
+#      - run:
+#          name: install-tox
+#          command: pip install --upgrade tox
+#      - run:
+#          name: test
+#          command: tox -e publish-coverage
 
 workflows:
   version: 2
   tests:
     jobs:
-      - build35
       - build36
       - build37
+      - build38
+      - build39
   lint:
     jobs:
       - check-format
       - flake8
       - bandit
-      - publish-coverage
+#      - publish-coverage
