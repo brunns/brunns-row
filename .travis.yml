@@ -4,6 +4,7 @@ matrix:
   allow_failures:
     - os: windows
     - os: osx
+    - os: 3.10-dev
   include:
     - python: 3.9
       env:
@@ -17,6 +18,9 @@ matrix:
     - python: 3.6
       env:
         - TOX_ENV=py36
+    - python: 3.10-dev
+      env:
+        - TOX_ENV=py310
     - python: 3.6
       env:
         - TOX_ENV=pypy3.6
