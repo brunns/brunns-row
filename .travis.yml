@@ -4,7 +4,7 @@ matrix:
   allow_failures:
     - os: windows
     - os: osx
-    - os: 3.10-dev
+    - python: 3.10-dev
   include:
     - python: 3.9
       env:
@@ -47,7 +47,10 @@ matrix:
     - python: 3.9
       env:
         - TOX_ENV=bandit
+before_install:
+  - pip install --upgrade pip wheel tox
 install:
-  - pip install --upgrade tox
+  - python --version
+  - pip --version
 script:
   - tox -e $TOX_ENV
