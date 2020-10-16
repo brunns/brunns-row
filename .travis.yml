@@ -31,13 +31,13 @@ matrix:
         - TOX_ENV=py37
     - os: windows
       language: sh
-      python: 3.8
+      python: 3.9
       before_install:
-        - choco install python --version=3.8.3
-        - export PATH="/c/Python38:/c/Python38/Scripts:$PATH"
+        - choco install python --version=3.9.0
+        - export PATH="/c/Python39:/c/Python39/Scripts:$PATH"
         - python -m pip install --upgrade pip wheel tox
       env:
-        - TOX_ENV=py38
+        - TOX_ENV=py39
     - python: 3.9
       env:
         - TOX_ENV=check-format
