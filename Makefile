@@ -9,13 +9,16 @@ test: ## Run tests
 coverage: ## Test coverage report
 	tox -e coverage
 
-lint: check-format flake8 bandit ## Lint code
+lint: check-format flake8 bandit safety ## Lint code
 
 flake8:
 	tox -e flake8
 
 bandit:
 	tox -e bandit
+
+safety:
+	tox -e safety
 
 extra-lint: pylint mypy  ## Extra, optional linting.
 
@@ -42,7 +45,7 @@ precommit: test lint coverage docs ## Pre-commit targets
 	@ python -m this
 
 recreate: ## Recreate tox environments
-	tox --recreate --notest -e py35,py36,py37,format,flake8,bandit,piprot,pylint
+	tox --recreate --notest -e py36,py37,py38,py39,format,flake8,bandit,safety,piprot,pylint
 
 clean: ## Clean generated files
 	find . -name '*.pyc' -delete
@@ -52,10 +55,10 @@ clean: ## Clean generated files
 	find . -name "test-output" -type d -print | xargs -t rm -r
 
 repl: ## Python REPL
-	tox -e py37 -- python
+	tox -e py39 -- python
 
 outdated: ## List outdated dependancies
-	tox -e py37 -- pip list --outdated
+	tox -e py39 -- pip list --outdated
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1,$$2}'
