@@ -21,7 +21,7 @@ except IOError:
 setup(
     name="brunns-row",
     zip_safe=False,
-    version="2.0.0",
+    version="2.1.0",
     description="Convenience wrapper for DB API and csv.DictReader rows, and similar.",
     long_description=long_description,
     long_description_content_type="text/markdown",
