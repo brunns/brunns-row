@@ -45,9 +45,9 @@ piprot: ## Check for outdated dependencies
 docs:  ## Generate documentation
 	tox -e docs
 
-precommit: test lint coverage docs ## Pre-commit targets
+.PHONY: precommit
+precommit: test lint coverage mypy docs ## Pre-commit targets
 	@ python -m this
-
 
 .PHONY: recreate
 recreate: clean ## Recreate tox environments

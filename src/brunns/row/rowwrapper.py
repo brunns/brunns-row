@@ -34,7 +34,7 @@ class RowWrapper:
     """
 
     def __init__(
-        self, description: Iterable[Union[str, Tuple[str]]], force_lower_case_ids: bool = False
+        self, description: Sequence[Union[str, Tuple[str]]], force_lower_case_ids: bool = False
     ) -> None:
         column_names = (
             [col for col in description]
