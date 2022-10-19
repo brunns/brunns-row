@@ -1,6 +1,6 @@
 # brunns-row
 
-Convenience wrapper for DB API and csv.DictReader rows, and similar, inspired by Greg Stein's lovely [dtuple module](https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access/).
+Convenience wrapper for DB API and csv.DictReader rows, and similar, inspired by [Greg Stein](https://github.com/gstein)'s lovely [dtuple module](https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access/).
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![Build Status](https://travis-ci.org/brunns/brunns-row.svg?branch=master&logo=travis)](https://travis-ci.org/brunns/brunns-row)
