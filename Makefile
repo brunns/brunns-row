@@ -4,12 +4,12 @@ default: help
 .PHONY: help
 
 test: ## Run tests
-	tox -e py36,py39
+	tox -e py37,py311
 
 coverage: ## Test coverage report
 	tox -e coverage
 
-lint: check-format flake8 bandit safety ## Lint code
+lint: check-format flake8 bandit safety refurb ## Lint code
 
 flake8:
 	tox -e flake8
@@ -24,6 +24,10 @@ extra-lint: pylint mypy  ## Extra, optional linting.
 
 pylint:
 	tox -e pylint
+
+.PHONY: refurb
+refurb:
+	tox -e refurb
 
 mypy:
 	tox -e mypy
@@ -44,8 +48,11 @@ docs:  ## Generate documentation
 precommit: test lint coverage docs ## Pre-commit targets
 	@ python -m this
 
-recreate: ## Recreate tox environments
-	tox --recreate --notest -e py36,py37,py38,py39,format,flake8,bandit,safety,piprot,pylint
+
+.PHONY: recreate
+recreate: clean ## Recreate tox environments
+	tox --recreate --notest -p -s
+	tox --recreate --notest -e coverage,format,check-format,flake8,pylint,bandit,safety,piprot,mypy,docs,refurb -p
 
 clean: ## Clean generated files
 	find . -name '*.pyc' -delete
@@ -55,10 +62,10 @@ clean: ## Clean generated files
 	find . -name "test-output" -type d -print | xargs -t rm -r
 
 repl: ## Python REPL
-	tox -e py39 -- python
+	tox -e py311 -- python
 
 outdated: ## List outdated dependancies
-	tox -e py39 -- pip list --outdated
+	tox -e py311 -- pip list --outdated
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1,$$2}'

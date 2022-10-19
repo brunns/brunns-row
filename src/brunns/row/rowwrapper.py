@@ -2,12 +2,8 @@
 import logging
 import re
 from collections import OrderedDict
+import dataclasses
 from typing import Any, Iterable, Mapping, Sequence, Tuple, Union
-
-try:
-    from dataclasses import make_dataclass
-except ImportError:  # pragma: no cover
-    from collections import namedtuple as make_dataclass
 
 logger = logging.getLogger(__name__)
 
@@ -48,7 +44,7 @@ class RowWrapper:
         self.ids_and_column_names = self._ids_and_column_names(
             column_names, force_lower_case=force_lower_case_ids
         )
-        self.dataclass = make_dataclass("RowTuple", self.ids_and_column_names.keys())
+        self.dataclass = dataclasses.make_dataclass("RowTuple", self.ids_and_column_names.keys())
 
     @staticmethod
     def _ids_and_column_names(names, force_lower_case=False):
