@@ -1,8 +1,8 @@
 # encoding=utf-8
+import dataclasses
 import logging
 import re
 from collections import OrderedDict
-import dataclasses
 from typing import Any, Iterable, Mapping, Sequence, Tuple, Union
 
 logger = logging.getLogger(__name__)
