@@ -34,7 +34,10 @@ class RowWrapper:
     """
 
     def __init__(
-        self, description: Sequence[Union[str, Tuple[str]]], force_lower_case_ids: bool = False
+        self,
+        description: Sequence[Union[str, Tuple[str]]],
+        force_lower_case_ids: bool = False,
+        row_tuple_class_name="Row",
     ) -> None:
         column_names = (
             [col for col in description]
@@ -44,7 +47,9 @@ class RowWrapper:
         self.ids_and_column_names = self._ids_and_column_names(
             column_names, force_lower_case=force_lower_case_ids
         )
-        self.dataclass = dataclasses.make_dataclass("RowTuple", self.ids_and_column_names.keys())
+        self.dataclass = dataclasses.make_dataclass(
+            row_tuple_class_name, self.ids_and_column_names.keys()
+        )
 
     @staticmethod
     def _ids_and_column_names(names, force_lower_case=False):
