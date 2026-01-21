@@ -1,13 +1,9 @@
 # encoding=utf-8
+import dataclasses
 import logging
 import re
 from collections import OrderedDict
 from typing import Any, Iterable, Mapping, Sequence, Tuple, Union
-
-try:
-    from dataclasses import make_dataclass
-except ImportError:  # pragma: no cover
-    from collections import namedtuple as make_dataclass
 
 logger = logging.getLogger(__name__)
 
@@ -38,17 +34,20 @@ class RowWrapper:
     """
 
     def __init__(
-        self, description: Iterable[Union[str, Tuple[str]]], force_lower_case_ids: bool = False
+        self,
+        description: Sequence[Union[str, Tuple[str]]],
+        force_lower_case_ids: bool = False,
+        row_tuple_class_name="Row",
     ) -> None:
         column_names = (
-            [col for col in description]
-            if isinstance(description[0], str)
-            else [col[0] for col in description]
+            description if isinstance(description[0], str) else [col[0] for col in description]
         )
         self.ids_and_column_names = self._ids_and_column_names(
             column_names, force_lower_case=force_lower_case_ids
         )
-        self.dataclass = make_dataclass("RowTuple", self.ids_and_column_names.keys())
+        self.dataclass = dataclasses.make_dataclass(
+            row_tuple_class_name, self.ids_and_column_names.keys()
+        )
 
     @staticmethod
     def _ids_and_column_names(names, force_lower_case=False):
@@ -89,9 +88,7 @@ class RowWrapper:
                 }
             )
             if isinstance(row, Mapping)
-            else self.dataclass(
-                **{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)}
-            )
+            else self.dataclass(**dict(zip(self.ids_and_column_names.keys(), row)))
         )
 
     def wrap_all(self, rows: Iterable[Union[Mapping[str, Any], Sequence[Any]]]):

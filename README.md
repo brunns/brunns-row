@@ -1,6 +1,6 @@
 # brunns-row
 
-Convenience wrapper for DB API and csv.DictReader rows, and similar, inspired by Greg Stein's lovely [dtuple module](https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access/).
+Convenience wrapper for DB API and csv.DictReader rows, and similar, inspired by [Greg Stein](https://github.com/gstein)'s lovely [dtuple module](https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access/).
 
 [![made-with-python](https://img.shields.io/badge/Made%20with-Python-1f425f.svg)](https://www.python.org/)
 [![Build Status](https://travis-ci.org/brunns/brunns-row.svg?branch=master&logo=travis)](https://travis-ci.org/brunns/brunns-row)
@@ -72,15 +72,17 @@ Requires [tox](https://tox.readthedocs.io). Run `make precommit` tells you if yo
 
 ## Releasing
 
-Requires [hub](https://hub.github.com/), [setuptools](https://setuptools.readthedocs.io), [wheel](https://pypi.org/project/wheel/) and [twine](https://twine.readthedocs.io). To release `n.n.n`:
+Requires [hub](https://hub.github.com/), [setuptools](https://setuptools.readthedocs.io),
+[wheel](https://github.com/pypa/wheel) and [twine](https://twine.readthedocs.io). To release version `n.n.n`, first
+update the version number in `setup.py`, then:
 
-    version="n.n.n"
-    make precommit && git commit -am"Release $version" && git push # If not already all pushed, which it should be.
-    hub release create $version -m"Release $version"
-    python setup.py sdist bdist_wheel
-    twine upload dist/*$version*
-    
-Quick version:
-
-    version="n.n.n"
-    git commit -am"Release $version" && git push && hub release create $version -m"Release $version" && python setup.py sdist bdist_wheel && twine upload dist/*$version*
+```sh
+version="n.n.n" # Needs to match new version number in setup.py.
+git checkout -b "release-$version"
+make precommit && git commit -am"Release $version" && git push --set-upstream origin "release-$version" # If not already all pushed, which it should be.
+hub release create "V$version" -t"release-$version" -m"Version $version"
+python setup.py sdist bdist_wheel
+twine upload dist/*$version*
+git checkout master
+git merge "release-$version"
+```
