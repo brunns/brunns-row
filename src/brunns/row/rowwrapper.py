@@ -40,9 +40,7 @@ class RowWrapper:
         row_tuple_class_name="Row",
     ) -> None:
         column_names = (
-            [col for col in description]
-            if isinstance(description[0], str)
-            else [col[0] for col in description]
+            description if isinstance(description[0], str) else [col[0] for col in description]
         )
         self.ids_and_column_names = self._ids_and_column_names(
             column_names, force_lower_case=force_lower_case_ids
@@ -90,9 +88,7 @@ class RowWrapper:
                 }
             )
             if isinstance(row, Mapping)
-            else self.dataclass(
-                **{ident: val for ident, val in zip(self.ids_and_column_names.keys(), row)}
-            )
+            else self.dataclass(**dict(zip(self.ids_and_column_names.keys(), row)))
         )
 
     def wrap_all(self, rows: Iterable[Union[Mapping[str, Any], Sequence[Any]]]):
