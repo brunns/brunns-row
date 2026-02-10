@@ -21,13 +21,19 @@ Convenience wrapper for DB API and csv.DictReader rows, and similar, inspired by
 [![Documentation Status](https://readthedocs.org/projects/brunns-row/badge/?version=latest)](https://brunns-row.readthedocs.io/en/latest/?badge=latest)
 [![Lines of Code](https://tokei.rs/b1/github/brunns/brunns-row)](https://github.com/brunns/brunns-row)
 
-## Setup
+## Installation
 
 Install with pip:
 
-    pip install brunns-row
+```bash
+pip install brunns-row
+```
 
-(As usual, use of a [venv](https://docs.python.org/3/library/venv.html) or [virtualenv](https://virtualenv.pypa.io) is recommended.)
+Or with [uv](https://docs.astral.sh/uv/):
+
+```bash
+uv add brunns-row
+```
 
 ## Usage
 
@@ -64,25 +70,72 @@ Attributes names are simply the column names where possible, converted to valid 
 invalid characters with "\_"s, prefixing any leading numerics with "a\_", and de-duplicating where necessary by adding 
 numeric suffixes.
 
-## Developing
+## Development
 
-Requires [tox](https://tox.readthedocs.io). Run `make precommit` tells you if you're OK to commit. For more options, run:
+This project uses [uv](https://docs.astral.sh/uv/) for dependency management and development.
 
-    make help
+### Setup
+
+```bash
+# Install uv if you haven't already
+curl -LsSf https://astral.sh/uv/install.sh | sh
+
+# Clone and setup
+git clone https://github.com/brunns/brunns-row.git
+cd brunns-row
+uv sync --all-extras
+```
+
+### Common Commands
+
+```bash
+# Run tests
+uv run pytest
+
+# Run tests with coverage
+uv run pytest --cov=src/brunns --cov-report=term-missing
+
+# Format code
+uv run ruff format .
+
+# Lint
+uv run ruff check .
+
+# Type check
+uv run mypy src/
+
+# Build docs
+uv run sphinx-build docs build_docs --color -W -bhtml
+
+# Run all pre-commit checks
+make precommit
+```
+
+For more options:
+
+```bash
+make help
+```
 
 ## Releasing
 
-Requires [hub](https://hub.github.com/), [setuptools](https://setuptools.readthedocs.io),
-[wheel](https://github.com/pypa/wheel) and [twine](https://twine.readthedocs.io). To release version `n.n.n`, first
-update the version number in `setup.py`, then:
+To release a new version:
 
-```sh
-version="n.n.n" # Needs to match new version number in setup.py.
-git checkout -b "release-$version"
-make precommit && git commit -am"Release $version" && git push --set-upstream origin "release-$version" # If not already all pushed, which it should be.
-hub release create "V$version" -t"release-$version" -m"Version $version"
-python setup.py sdist bdist_wheel
-twine upload dist/*$version*
-git checkout master
-git merge "release-$version"
-```
+1. Update the version number in `pyproject.toml`
+2. Run the pre-commit checks:
+   ```bash
+   make precommit
+   ```
+3. Commit and tag:
+   ```bash
+   git commit -am "Release v<version>"
+   git tag v<version>
+   git push --tags
+   ```
+4. Build and publish:
+   ```bash
+   uv build
+   uv publish
+   ```
+
+The package will be built and uploaded to PyPI.

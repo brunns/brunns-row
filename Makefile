@@ -3,60 +3,73 @@ SHELL = /bin/bash
 default: help
 .PHONY: help
 
+.PHONY: sync
+sync: ## Sync dependencies with uv
+	uv sync --all-extras
+
 test: ## Run tests
-	tox -e py310,py314,pypy311
+	uv run pytest
+
+test-all-python: ## Run tests on all Python versions
+	uv run --python 3.10 pytest
+	uv run --python 3.11 pytest
+	uv run --python 3.12 pytest
+	uv run --python 3.13 pytest
+	uv run --python 3.14 pytest
 
 coverage: ## Test coverage report
-	tox -e coverage
+	uv run pytest --cov=src/brunns --cov-report=term-missing --cov-report=html
 
 lint: check-format bandit refurb ## Lint code
 
-bandit:
-	tox -e bandit
+check-format:
+	uv run ruff format . --check
+	uv run ruff check .
 
-extra-lint: mypy  ## Extra, optional linting.
+bandit:
+	uv run bandit -r src/
 
 .PHONY: refurb
 refurb:
-	tox -e refurb
+	uv run refurb src/
 
 mypy:
-	tox -e mypy
-
-check-format:
-	tox -e check-format
+	uv run mypy src/
 
 format: ## Format code
-	tox -e format
-
-piprot: ## Check for outdated dependencies
-	tox -e piprot
+	uv run ruff format .
+	uv run ruff check . --fix
 
 .PHONY: docs
 docs:  ## Generate documentation
-	tox -e docs
+	uv run sphinx-build docs build_docs --color -W -bhtml
+	@ echo "Documentation available at file://$(PWD)/build_docs/index.html"
 
 .PHONY: precommit
 precommit: test lint coverage mypy docs ## Pre-commit targets
 	@ python -m this
 
-.PHONY: recreate
-recreate: clean ## Recreate tox environments
-	tox --recreate --notest -p -s
-	tox --recreate --notest -e coverage,format,check-format,bandit,piprot,mypy,docs,refurb -p
+.PHONY: build
+build: ## Build distribution packages
+	uv build
+
+.PHONY: publish
+publish: build ## Publish to PyPI
+	uv publish
 
 clean: ## Clean generated files
 	find . -name '*.pyc' -delete
 	find . -name '*.pyo' -delete
-	rm -rf build/ dist/ *.egg-info/ .cache .coverage .pytest_cache
+	rm -rf build/ dist/ *.egg-info/ .cache .coverage .pytest_cache htmlcov/ .venv/
 	find . -name "__pycache__" -type d -print | xargs -t rm -r
 	find . -name "test-output" -type d -print | xargs -t rm -r
 
+.PHONY: repl
 repl: ## Python REPL
-	tox -e py314 -- python
+	uv run python
 
-outdated: ## List outdated dependancies
-	tox -e py314 -- pip list --outdated
+outdated: ## List outdated dependencies
+	uv pip list --outdated
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1,$$2}'

@@ -6,26 +6,35 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 brunns-row is a Python library that provides a convenience wrapper for DB API and csv.DictReader rows. It allows accessing row data via attributes instead of indices or dictionary keys, inspired by Greg Stein's dtuple module.
 
+## Package Management
+
+This project uses **uv** for dependency management and packaging. All configuration is in `pyproject.toml`.
+
+### First Time Setup
+```bash
+uv sync --all-extras  # Install all dependencies and create .venv
+```
+
 ## Development Commands
 
 ### Testing
-- Run tests: `tox -e py310,py314,pypy311` or `make test`
-- Run single test: `pytest tests/unit/row/test_rowwrapper.py::test_identifiers_fixed_for_mapping_row`
-- Run specific test file: `pytest tests/unit/row/test_rowwrapper.py`
-- Run with coverage: `tox -e coverage` or `make coverage` (requires 100% coverage)
-- Test environments: py310, py311, py312, py313, py314, pypy310, pypy311
+- Run tests: `uv run pytest` or `make test`
+- Run single test: `uv run pytest tests/unit/row/test_rowwrapper.py::test_identifiers_fixed_for_mapping_row`
+- Run specific test file: `uv run pytest tests/unit/row/test_rowwrapper.py`
+- Run with coverage: `uv run pytest --cov=src/brunns --cov-report=term-missing --cov-report=html` or `make coverage`
+- Test all Python versions: `make test-all-python` (tests 3.10, 3.11, 3.12, 3.13, 3.14)
 
 ### Code Quality
-- Run all linting: `make lint` (runs check-format, bandit, safety, refurb)
-- Format code: `tox -e format` or `make format` (ruff format + ruff check --fix)
-- Check formatting: `tox -e check-format` (ruff format --check + ruff check)
-- Type checking: `tox -e mypy` or `make mypy`
+- Run all linting: `make lint` (runs check-format, bandit, refurb)
+- Format code: `uv run ruff format .` or `make format`
+- Check formatting: `uv run ruff format . --check && uv run ruff check .` or `make check-format`
+- Type checking: `uv run mypy src/` or `make mypy`
 - Individual linters:
-  - `tox -e bandit` (security)
-  - `tox -e refurb` (modernization suggestions)
+  - `uv run bandit -r src/` (security)
+  - `uv run refurb src/` (modernization suggestions)
 
 ### Documentation
-- Build docs: `tox -e docs` or `make docs`
+- Build docs: `uv run sphinx-build docs build_docs --color -W -bhtml` or `make docs`
 - Docs built with Sphinx to `build_docs/` directory
 
 ### Pre-commit (Key Target)
@@ -34,10 +43,15 @@ brunns-row is a Python library that provides a convenience wrapper for DB API an
   - Must pass before code is ready to commit
   - Ends with "The Zen of Python" when successful
 
+### Building and Publishing
+- Build distribution: `uv build` or `make build`
+- Publish to PyPI: `uv publish` or `make publish`
+
 ### Other
+- Sync dependencies: `uv sync --all-extras` or `make sync`
 - Clean generated files: `make clean`
-- Recreate tox environments: `make recreate`
-- Python REPL: `make repl`
+- Python REPL: `uv run python` or `make repl`
+- Check outdated deps: `uv pip list --outdated` or `make outdated`
 
 ## Architecture
 
@@ -81,13 +95,19 @@ The `RowWrapper` class is the heart of the library:
 - **Target version**: Python 3.10+
 - **Complexity**: Max McCabe complexity of 5
 - **Linting**: Ruff with extensive rules enabled (see pyproject.toml for full config)
-- **Coverage**: 100% required (omits */matcher.py)
+- **Coverage**: 100% required
+
+## Dependency Management
+
+- **Lock file**: `uv.lock` is committed to the repository and should be kept up to date
+- **Adding dependencies**: Edit `pyproject.toml` [project.dependencies] or [project.optional-dependencies], then run `uv sync`
+- **Updating dependencies**: `uv sync --upgrade`
 
 ## Release Process
 
-Version is set in `setup.py`. The README documents a release process involving:
-1. Create release branch
-2. Run `make precommit`
-3. Commit and push
-4. Create GitHub release with `hub`
-5. Build and upload to PyPI with `twine`
+1. Update version in `pyproject.toml`
+2. Run `make precommit` to ensure all checks pass
+3. Commit changes
+4. Create git tag: `git tag v<version>`
+5. Push with tags: `git push --tags`
+6. Build and publish: `make publish` (runs `uv build && uv publish`)
