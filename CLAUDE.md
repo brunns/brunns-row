@@ -102,6 +102,10 @@ The `RowWrapper` class is the heart of the library:
 - **Lock file**: `uv.lock` is committed to the repository and should be kept up to date
 - **Adding dependencies**: Edit `pyproject.toml` [project.dependencies] or [project.optional-dependencies], then run `uv sync`
 - **Updating dependencies**: `uv sync --upgrade`
+- **Automated updates**: Dependabot runs weekly (Mondays at 9am) to check for:
+  - Python dependency updates (grouped: production deps and dev deps)
+  - GitHub Actions updates
+  - Creates PRs with labels and conventional commit messages
 
 ## Release Process
 
