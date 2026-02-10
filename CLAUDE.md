@@ -109,9 +109,36 @@ The `RowWrapper` class is the heart of the library:
 
 ## Release Process
 
+Releases are automated via GitHub Actions when a version tag is pushed.
+
+### Steps to Release
+
 1. Update version in `pyproject.toml`
 2. Run `make precommit` to ensure all checks pass
-3. Commit changes
-4. Create git tag: `git tag v<version>`
-5. Push with tags: `git push --tags`
-6. Build and publish: `make publish` (runs `uv build && uv publish`)
+3. Commit and push changes:
+   ```bash
+   git commit -am "chore: bump version to X.Y.Z"
+   git push
+   ```
+4. Create and push a version tag:
+   ```bash
+   git tag vX.Y.Z
+   git push --tags
+   ```
+
+### What Happens Automatically
+
+The GitHub Actions release workflow (`.github/workflows/release.yml`) will:
+1. ✅ Run full test suite with coverage
+2. 📦 Build wheel and sdist using `uv build`
+3. 🚀 Publish to PyPI (requires PyPI API token in GitHub secrets)
+4. 📝 Create GitHub Release with auto-generated notes
+5. 📎 Upload distribution files to the GitHub Release
+
+### Setup Requirements
+
+For the automated release to work, configure a PyPI API token:
+1. Create token at https://pypi.org/manage/account/token/
+2. Add as GitHub secret named `PYPI_API_TOKEN` (or use trusted publishing)
+
+**Note:** The workflow uses PyPI's Trusted Publishers feature, which is more secure than API tokens if configured.

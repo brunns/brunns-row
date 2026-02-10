@@ -119,23 +119,23 @@ make help
 
 ## Releasing
 
-To release a new version:
+Releases are automated via GitHub Actions. To release a new version:
 
 1. Update the version number in `pyproject.toml`
 2. Run the pre-commit checks:
    ```bash
    make precommit
    ```
-3. Commit and tag:
+3. Commit, tag, and push:
    ```bash
-   git commit -am "Release v<version>"
-   git tag v<version>
+   git commit -am "chore: bump version to X.Y.Z"
+   git push
+   git tag vX.Y.Z
    git push --tags
    ```
-4. Build and publish:
-   ```bash
-   uv build
-   uv publish
-   ```
 
-The package will be built and uploaded to PyPI.
+The release workflow will automatically:
+- Run tests
+- Build the package
+- Publish to PyPI
+- Create a GitHub Release with release notes
