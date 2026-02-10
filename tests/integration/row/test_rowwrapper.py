@@ -1,8 +1,7 @@
-# encoding=utf-8
 import csv
 import logging
 
-from hamcrest import assert_that, contains, has_properties
+from hamcrest import assert_that, contains_exactly, has_properties
 
 from brunns.row.rowwrapper import RowWrapper
 
@@ -21,7 +20,7 @@ def test_dbapi_row_wrapping(db):
     # Then
     assert_that(
         rows,
-        contains(
+        contains_exactly(
             has_properties(kind="cumberland", rating=10),
             has_properties(kind="lincolnshire", rating=9),
             has_properties(kind="vegetarian", rating=0),
@@ -41,7 +40,7 @@ def test_wrap_all(db):
     # Then
     assert_that(
         rows,
-        contains(
+        contains_exactly(
             has_properties(kind="cumberland", rating=10),
             has_properties(kind="lincolnshire", rating=9),
             has_properties(kind="vegetarian", rating=0),
@@ -60,7 +59,7 @@ def test_csv_wrapping(csv_file):
     # Then
     assert_that(
         rows,
-        contains(
+        contains_exactly(
             has_properties(kind="cumberland", rating="10"),
             has_properties(kind="lincolnshire", rating="9"),
             has_properties(kind="vegetarian", rating="0"),

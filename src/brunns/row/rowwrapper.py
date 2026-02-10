@@ -1,9 +1,9 @@
-# encoding=utf-8
 import dataclasses
 import logging
 import re
 from collections import OrderedDict
-from typing import Any, Iterable, Mapping, Sequence, Tuple, Union
+from collections.abc import Iterable, Mapping, Sequence
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -35,19 +35,13 @@ class RowWrapper:
 
     def __init__(
         self,
-        description: Sequence[Union[str, Tuple[str]]],
+        description: Sequence[str | tuple[str]],
         force_lower_case_ids: bool = False,
         row_tuple_class_name="Row",
     ) -> None:
-        column_names = (
-            description if isinstance(description[0], str) else [col[0] for col in description]
-        )
-        self.ids_and_column_names = self._ids_and_column_names(
-            column_names, force_lower_case=force_lower_case_ids
-        )
-        self.dataclass = dataclasses.make_dataclass(
-            row_tuple_class_name, self.ids_and_column_names.keys()
-        )
+        column_names = description if isinstance(description[0], str) else [col[0] for col in description]
+        self.ids_and_column_names = self._ids_and_column_names(column_names, force_lower_case=force_lower_case_ids)
+        self.dataclass = dataclasses.make_dataclass(row_tuple_class_name, self.ids_and_column_names.keys())
 
     @staticmethod
     def _ids_and_column_names(names, force_lower_case=False):
@@ -68,7 +62,7 @@ class RowWrapper:
         and prefixing with "a_" if necessary."""
         string = re.sub(r"[ \-+/\\*%&$£#@.,;:'" "?<>]", "_", string)
         if re.match(r"^\d", string):
-            string = "a_{0}".format(string)
+            string = f"a_{string}"
         return string
 
     @staticmethod
@@ -78,20 +72,15 @@ class RowWrapper:
             return re.sub(r"\d+$", lambda n: str(int(n.group(0)) + 1), s)
         return s + "_2"
 
-    def wrap(self, row: Union[Mapping[str, Any], Sequence[Any]]):
+    def wrap(self, row: Mapping[str, Any] | Sequence[Any]):
         """Return row tuple for row."""
         return (
-            self.dataclass(
-                **{
-                    ident: row[column_name]
-                    for ident, column_name in self.ids_and_column_names.items()
-                }
-            )
+            self.dataclass(**{ident: row[column_name] for ident, column_name in self.ids_and_column_names.items()})
             if isinstance(row, Mapping)
-            else self.dataclass(**dict(zip(self.ids_and_column_names.keys(), row)))
+            else self.dataclass(**dict(zip(self.ids_and_column_names.keys(), row, strict=False)))
         )
 
-    def wrap_all(self, rows: Iterable[Union[Mapping[str, Any], Sequence[Any]]]):
+    def wrap_all(self, rows: Iterable[Mapping[str, Any] | Sequence[Any]]):
         """Return row tuple for each row in rows."""
         return (self.wrap(r) for r in rows)
 

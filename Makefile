@@ -9,18 +9,12 @@ test: ## Run tests
 coverage: ## Test coverage report
 	tox -e coverage
 
-lint: check-format flake8 bandit safety refurb ## Lint code
-
-flake8:
-	tox -e flake8
+lint: check-format bandit refurb ## Lint code
 
 bandit:
 	tox -e bandit
 
-extra-lint: pylint mypy  ## Extra, optional linting.
-
-pylint:
-	tox -e pylint
+extra-lint: mypy  ## Extra, optional linting.
 
 .PHONY: refurb
 refurb:
@@ -49,7 +43,7 @@ precommit: test lint coverage mypy docs ## Pre-commit targets
 .PHONY: recreate
 recreate: clean ## Recreate tox environments
 	tox --recreate --notest -p -s
-	tox --recreate --notest -e coverage,format,check-format,flake8,pylint,bandit,safety,piprot,mypy,docs,refurb -p
+	tox --recreate --notest -e coverage,format,check-format,bandit,piprot,mypy,docs,refurb -p
 
 clean: ## Clean generated files
 	find . -name '*.pyc' -delete

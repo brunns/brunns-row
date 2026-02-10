@@ -13,8 +13,8 @@ here = os.path.abspath(here)
 
 try:
     readme = os.path.join(here, "README.md")
-    long_description = open(readme, "r").read()
-except IOError:
+    long_description = open(readme).read()
+except OSError:
     logger.warning("README file not found or unreadable.")
     long_description = "See https://github.com/brunns/brunns-row/"
 

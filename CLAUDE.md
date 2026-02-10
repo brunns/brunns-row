@@ -28,8 +28,11 @@ brunns-row is a Python library that provides a convenience wrapper for DB API an
 - Build docs: `tox -e docs` or `make docs`
 - Docs built with Sphinx to `build_docs/` directory
 
-### Pre-commit
-- Run all checks: `make precommit` (runs test, lint, coverage, mypy, docs)
+### Pre-commit (Key Target)
+- **`make precommit`** - Run all checks before committing
+  - This is the main quality gate - runs: test, lint, coverage, mypy, docs
+  - Must pass before code is ready to commit
+  - Ends with "The Zen of Python" when successful
 
 ### Other
 - Clean generated files: `make clean`
