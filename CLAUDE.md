@@ -139,6 +139,6 @@ The GitHub Actions release workflow (`.github/workflows/release.yml`) will:
 
 For the automated release to work, configure a PyPI API token:
 1. Create token at https://pypi.org/manage/account/token/
-2. Add as GitHub secret named `PYPI_API_TOKEN` (or use trusted publishing)
+2. Add as GitHub secret named `PYPI_API_TOKEN` (or use [trusted publishing](https://packaging.python.org/en/latest/guides/publishing-package-distribution-releases-using-github-actions-ci-cd-workflows/))
 
 **Note:** The workflow uses PyPI's Trusted Publishers feature, which is more secure than API tokens if configured.
