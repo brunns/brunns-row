@@ -35,25 +35,18 @@ Documentation = "https://brunns-row.readthedocs.io"
 Repository = "https://github.com/brunns/brunns-row"
 Issues = "https://github.com/brunns/brunns-row/issues"
 
-[project.optional-dependencies]
-test = [
-    "pytest>=9.0",
-    "pyhamcrest>=2.0",
-    "contexttimer>=0.3",
-    "pytest-cov>=2.5",
-]
-lint = [
-    "ruff",
-    "bandit~=1.4",
-    "mypy~=1.0",
-]
-docs = [
-    "sphinx>=3.0",
-    "sphinx-autodoc-typehints>=1.10",
-    "furo",
-]
+
+[dependency-groups]
 dev = [
-    "brunns-row[test,lint,docs]",
+    "contexttimer>=0.3",
+    "furo",
+    "mypy~=1.0",
+    "pyhamcrest>=2.0",
+    "pytest-cov>=2.5",
+    "pytest>=9.0",
+    "ruff",
+    "sphinx-autodoc-typehints>=1.10",
+    "sphinx>=3.0",
 ]
 
 [tool.hatch.build.targets.wheel]

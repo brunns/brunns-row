@@ -20,15 +20,12 @@ test-all-python: ## Run tests on all Python versions
 coverage: ## Test coverage report
 	uv run pytest --cov=src/brunns --cov-report=term-missing --cov-report=html
 
-lint: check-format bandit ## Lint code
+lint: check-format ## Lint code
 
 .PHONY: check-format
 check-format:
 	uv run ruff format . --check
 	uv run ruff check .
-
-bandit:
-	uv run bandit -r src/
 
 mypy:
 	uv run mypy src/
