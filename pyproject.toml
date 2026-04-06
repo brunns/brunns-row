@@ -45,7 +45,6 @@ test = [
 lint = [
     "ruff",
     "bandit~=1.4",
-    "refurb>=1.0",
     "mypy~=1.0",
 ]
 docs = [
@@ -71,9 +70,6 @@ omit = ["*/matcher.py"]
 [tool.coverage.report]
 fail_under = 100
 show_missing = true
-
-[tool.refurb]
-ignore = [140]
 
 [tool.ruff]
 line-length = 120

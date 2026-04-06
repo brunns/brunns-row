@@ -25,13 +25,12 @@ uv sync --all-extras  # Install all dependencies and create .venv
 - Test all Python versions: `make test-all-python` (tests 3.10, 3.11, 3.12, 3.13, 3.14)
 
 ### Code Quality
-- Run all linting: `make lint` (runs check-format, bandit, refurb)
+- Run all linting: `make lint` (runs check-format, bandit)
 - Format code: `uv run ruff format .` or `make format`
 - Check formatting: `uv run ruff format . --check && uv run ruff check .` or `make check-format`
 - Type checking: `uv run mypy src/` or `make mypy`
 - Individual linters:
   - `uv run bandit -r src/` (security)
-  - `uv run refurb src/` (modernization suggestions)
 
 ### Documentation
 - Build docs: `uv run sphinx-build docs build_docs --color -W -bhtml` or `make docs`
