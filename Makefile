@@ -3,10 +3,6 @@ SHELL = /bin/bash
 default: help
 .PHONY: help
 
-.PHONY: sync
-sync: ## Sync dependencies with uv
-	uv sync --all-extras
-
 test: ## Run tests
 	uv run pytest
 

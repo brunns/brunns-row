@@ -23,8 +23,6 @@ updates:
           - "pytest*"
           - "ruff"
           - "mypy"
-          - "bandit"
-          - "refurb"
           - "sphinx*"
           - "furo"
       dev-dependencies:
@@ -32,12 +30,10 @@ updates:
           - "pytest*"
           - "ruff"
           - "mypy"
-          - "bandit"
-          - "refurb"
           - "sphinx*"
           - "furo"
     cooldown:
-      default-days: 4
+      default-days: 7
 
   - package-ecosystem: "github-actions"
     directory: "/"
@@ -52,4 +48,4 @@ updates:
       prefix: "chore(ci)"
       include: "scope"
     cooldown:
-      default-days: 4
+      default-days: 7

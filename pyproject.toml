@@ -35,6 +35,8 @@ Documentation = "https://brunns-row.readthedocs.io"
 Repository = "https://github.com/brunns/brunns-row"
 Issues = "https://github.com/brunns/brunns-row/issues"
 
+[tool.uv]
+exclude-newer = "7 days"
 
 [dependency-groups]
 dev = [
