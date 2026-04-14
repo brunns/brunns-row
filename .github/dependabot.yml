@@ -6,8 +6,6 @@ updates:
       - dependency-type: "all"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
     open-pull-requests-limit: 10
     labels:
       - "dependencies"
@@ -32,6 +30,8 @@ updates:
           - "mypy"
           - "sphinx*"
           - "furo"
+    assignees:
+        - "brunns"
     cooldown:
       default-days: 7
 
@@ -39,13 +39,13 @@ updates:
     directory: "/"
     schedule:
       interval: "weekly"
-      day: "monday"
-      time: "09:00"
     labels:
       - "dependencies"
       - "github-actions"
     commit-message:
       prefix: "chore(ci)"
       include: "scope"
+    assignees:
+      - "brunns"
     cooldown:
       default-days: 7
