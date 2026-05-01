@@ -20,8 +20,8 @@ class RowWrapper:
     will be ignored). For instance, it's happy to take a DB API cursor description, or a csv.DictReader's fieldnames
     property. Provides a wrap(row) method for wrapping rows.
 
-    Some characters which are illegal in identifiers will be replaced when building the row tuples - currently "-" and
-    " " characters will be replaced with "_"s.
+    Characters which are illegal in identifiers will be replaced when building the row tuples - any non-word character
+    will be replaced with "_".
 
     >>> cursor = conn.cursor()
     >>> cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
@@ -60,7 +60,7 @@ class RowWrapper:
     def _make_identifier(string):
         """Attempt to convert string into a valid identifier by replacing invalid characters with "_"s,
         and prefixing with "a_" if necessary."""
-        string = re.sub(r"[ \-+/\\*%&$£#@.,;:'" "?<>]", "_", string)
+        string = re.sub(r"\W", "_", string)
         if re.match(r"^\d", string):
             string = f"a_{string}"
         return string

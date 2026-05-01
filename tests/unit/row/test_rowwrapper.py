@@ -57,6 +57,17 @@ def test_column_identifiers_deduplication_for_positional_row():
     )
 
 
+def test_curly_brace_identifiers_for_mapping_row():
+    # Given
+    wrapper = RowWrapper(["{Ix}", "{Ex}", "{Cx}"])
+
+    # When
+    row = wrapper({"{Ix}": "1", "{Ex}": "2", "{Cx}": "3"})
+
+    # Then
+    assert_that(row, has_properties(_Ix_="1", _Ex_="2", _Cx_="3"))
+
+
 def test_lower_cased_identifiers():
     # Given
     wrapper = RowWrapper(["column-name", "Another One", "3rd Column"], force_lower_case_ids=True)
