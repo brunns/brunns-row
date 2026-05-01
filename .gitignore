@@ -104,7 +104,6 @@ venv.bak/
 # mypy
 .mypy_cache/
 
-
 # Editor cruft
 .idea/
 *~
@@ -115,3 +114,6 @@ package-lock.json
 
 # Mac cruft
 .DS_Store
+
+# Secrets
+.envrc
