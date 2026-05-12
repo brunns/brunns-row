@@ -41,7 +41,7 @@ exclude-newer = "7 days"
 [dependency-groups]
 dev = [
     "contexttimer>=0.3",
-    "furo",
+    "furo>=2025.12.19",
     "mypy~=1.0",
     "pyhamcrest>=2.0",
     "pytest-cov>=2.5",
