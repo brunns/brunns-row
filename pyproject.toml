@@ -47,8 +47,8 @@ dev = [
     "pytest-cov>=2.5",
     "pytest>=9.0",
     "ruff",
-    "sphinx-autodoc-typehints>=1.10",
-    "sphinx>=3.0",
+    "sphinx>=8.0",
+    "sphinx-autodoc-typehints>=3.0",
 ]
 
 [tool.hatch.build.targets.wheel]
