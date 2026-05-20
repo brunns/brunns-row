@@ -23,8 +23,9 @@ check-format:
 	uv run ruff format . --check
 	uv run ruff check .
 
-mypy:
-	uv run mypy src/
+.PHONY: typecheck
+typecheck:
+	uv run pyright src/
 
 format: ## Format code
 	uv run ruff format .
@@ -36,7 +37,7 @@ docs:  ## Generate documentation
 	@ echo "Documentation available at file://$(PWD)/build_docs/index.html"
 
 .PHONY: precommit
-precommit: test lint coverage mypy docs ## Pre-commit targets
+precommit: test lint coverage check-format docs ## Pre-commit targets
 	@ python -m this
 
 .PHONY: build

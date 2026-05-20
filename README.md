@@ -90,22 +90,22 @@ uv sync --all-extras
 
 ```bash
 # Run tests
-uv run pytest
+make test
 
 # Run tests with coverage
-uv run pytest --cov=src/brunns --cov-report=term-missing
+make coverage
 
 # Format code
-uv run ruff format .
+make format
 
 # Lint
-uv run ruff check .
+make lint
 
 # Type check
-uv run mypy src/
+make typecheck
 
 # Build docs
-uv run sphinx-build docs build_docs --color -W -bhtml
+make docs
 
 # Run all pre-commit checks
 make precommit

@@ -24,7 +24,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
       - name: Run Tests
-        run: uv run pytest
+        run: make test
 
   test-py-versions:
     name: 'Test Python versions'
@@ -47,7 +47,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
       - name: Run Tests
-        run: uv run pytest
+        run: make test
 
   test-oses:
     name: 'Test OSes'
@@ -67,7 +67,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
       - name: Run Tests
-        run: uv run pytest
+        run: make test
 
   coverage:
     name: 'Check coverage'
@@ -87,7 +87,7 @@ jobs:
       - name: Install dependencies
         run: uv sync --all-extras
       - name: Check coverage
-        run: uv run pytest --cov=src/brunns --cov-report=term-missing
+        run: make coverage
 
   lint-etc:
     name: 'Linting and docs'
@@ -106,11 +106,6 @@ jobs:
         run: uv python install ${{ matrix.python }}
       - name: Install dependencies
         run: uv sync --all-extras
-      - name: Check format
-        run: uv run ruff format . --check
-      - name: Lint
-        run: uv run ruff check .
-      - name: Check types
-        run: uv run mypy src/
-      - name: Build docs
-        run: uv run sphinx-build docs build_docs --color -W -bhtml
+      - run: make lint
+      - run: make typecheck
+      - run: make docs
