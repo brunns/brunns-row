@@ -87,7 +87,7 @@ dev = [
     { name = "pyright", specifier = ">=1.1.409" },
     { name = "pytest", specifier = ">=9.0" },
     { name = "pytest-cov", specifier = ">=2.5" },
-    { name = "ruff" },
+    { name = "ruff", specifier = ">=0.15.12" },
     { name = "sphinx", specifier = ">=8.0" },
     { name = "sphinx-autodoc-typehints", specifier = ">=3.0" },
 ]

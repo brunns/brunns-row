@@ -28,6 +28,8 @@ classifiers = [
     "Topic :: Software Development :: Testing",
 ]
 dependencies = []
+import-names = ["brunns.row"]
+import-namespaces = ["brunns"]
 
 [project.urls]
 Homepage = "https://brunns-row.readthedocs.io"
@@ -46,7 +48,7 @@ dev = [
     "pyhamcrest>=2.0",
     "pytest-cov>=2.5",
     "pytest>=9.0",
-    "ruff",
+    "ruff>=0.15.12",
     "sphinx>=8.0",
     "sphinx-autodoc-typehints>=3.0",
 ]
