@@ -18,20 +18,20 @@ uv sync --all-extras  # Install all dependencies and create .venv
 ## Development Commands
 
 ### Testing
-- Run tests: `uv run pytest` or `make test`
+- Run tests: `make test`
 - Run single test: `uv run pytest tests/unit/row/test_rowwrapper.py::test_identifiers_fixed_for_mapping_row`
 - Run specific test file: `uv run pytest tests/unit/row/test_rowwrapper.py`
-- Run with coverage: `uv run pytest --cov=src/brunns --cov-report=term-missing --cov-report=html` or `make coverage`
+- Run with coverage: `make coverage`
 - Test all Python versions: `make test-all-python` (tests 3.10, 3.11, 3.12, 3.13, 3.14)
 
 ### Code Quality
 - Run all linting: `make lint` (runs check-format)
-- Format code: `uv run ruff format .` or `make format`
-- Check formatting: `uv run ruff format . --check && uv run ruff check .` or `make check-format`
-- Type checking: `uv run mypy src/` or `make mypy`
+- Format code: `make format`
+- Check formatting: `make check-format`
+- Type checking: `make mypy`
 
 ### Documentation
-- Build docs: `uv run sphinx-build docs build_docs --color -W -bhtml` or `make docs`
+- Build docs: `make docs`
 - Docs built with Sphinx to `build_docs/` directory
 
 ### Pre-commit (Key Target)
@@ -41,14 +41,14 @@ uv sync --all-extras  # Install all dependencies and create .venv
   - Ends with "The Zen of Python" when successful
 
 ### Building and Publishing
-- Build distribution: `uv build` or `make build`
-- Publish to PyPI: `uv publish` or `make publish`
+- Build distribution: `make build`
+- Publish to PyPI: `make publish`
 
 ### Other
-- Sync dependencies: `uv sync --all-extras` or `make sync`
+- Sync dependencies: `make sync`
 - Clean generated files: `make clean`
-- Python REPL: `uv run python` or `make repl`
-- Check outdated deps: `uv pip list --outdated` or `make outdated`
+- Python REPL: `make repl`
+- Check outdated deps: `make outdated`
 
 ## Architecture
 
