@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 
 class RowWrapper:
     """
-    Build lightweight row tuples for DB API and csv.DictReader rows.
+    Build lightweight row dataclasses for DB API and csv.DictReader rows.
 
     Inspired by Greg Stein's lovely
     `dtuple module <https://code.activestate.com/recipes/81252-using-dtuple-for-flexible-query-result-access>`_,
@@ -23,6 +23,8 @@ class RowWrapper:
 
     Characters which are illegal in identifiers will be replaced when building the row tuples - any non-word character
     will be replaced with "_".
+
+    By default, these row wrappers are immutable, unordered, and don't use slots.
 
     >>> cursor = conn.cursor()
     >>> cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
@@ -41,10 +43,15 @@ class RowWrapper:
         ],  # TODO: We can use "Sequence[str | tuple[str, *tuple[Any, ...]]]" once we drop Python 3.10 support.
         force_lower_case_ids: bool = False,
         row_tuple_class_name: str = "Row",
+        mutable: bool = False,
+        ordered: bool = False,
+        slots: bool = False,
     ) -> None:
         column_names: list[str] = [col if isinstance(col, str) else col[0] for col in description]
         self.ids_and_column_names = self._ids_and_column_names(column_names, force_lower_case=force_lower_case_ids)
-        self.dataclass = dataclasses.make_dataclass(row_tuple_class_name, self.ids_and_column_names.keys())
+        self.dataclass = dataclasses.make_dataclass(
+            row_tuple_class_name, self.ids_and_column_names.keys(), order=ordered, frozen=not mutable, slots=slots
+        )
 
     @staticmethod
     def _ids_and_column_names(names: Sequence[str], force_lower_case: bool = False) -> OrderedDict[str, str]:

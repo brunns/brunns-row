@@ -1,5 +1,7 @@
 import logging
+from dataclasses import FrozenInstanceError
 
+import pytest
 from hamcrest import assert_that, has_properties
 
 from brunns.row.rowwrapper import RowWrapper
@@ -80,3 +82,49 @@ def test_lower_cased_identifiers():
         row,
         has_properties(column_name="value", another_one="another-value", a_3rd_column="3rd value"),
     )
+
+
+def test_immutable_by_default():
+    # Given
+    wrapper = RowWrapper(["column-1", "column-2"])
+
+    # When
+    row = wrapper(["value 1", "value 2"])
+
+    # Then
+    with pytest.raises(FrozenInstanceError):
+        row.column_1 = "new value"
+
+
+def test_mutability():
+    # Given
+    wrapper = RowWrapper(["column-1", "column-2"], mutable=True)
+
+    # When
+    row = wrapper(["value 1", "value 2"])
+
+    # Then
+    row.column_1 = "new value"
+
+
+def test_unordered_by_default():
+    # Given
+    wrapper = RowWrapper(["column-1", "column-2"])
+
+    # When
+    rows = list(wrapper.wrap_all([["value 1", "value 2"], ["value 3", "value 4"]]))
+
+    # Then
+    with pytest.raises(TypeError):
+        rows.sort()
+
+
+def test_ordered():
+    # Given
+    wrapper = RowWrapper(["column-1", "column-2"], ordered=True)
+
+    # When
+    rows = list(wrapper.wrap_all([["value 1", "value 2"], ["value 3", "value 4"]]))
+
+    # Then
+    rows.sort()
