@@ -128,3 +128,14 @@ def test_ordered():
 
     # Then
     rows.sort()
+
+
+def test_hashable():
+    # Given
+    wrapper = RowWrapper(["column-1", "column-2"])
+
+    # When
+    row = wrapper(["value 1", "value 2"])
+
+    # Then
+    hash(row)
