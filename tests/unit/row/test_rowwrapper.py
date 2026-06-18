@@ -2,6 +2,7 @@ import logging
 from dataclasses import FrozenInstanceError
 
 import pytest
+from brunns.matchers.object import has_repr
 from hamcrest import assert_that, has_properties
 
 from brunns.row.rowwrapper import RowWrapper
@@ -139,3 +140,14 @@ def test_hashable():
 
     # Then
     hash(row)
+
+
+def test_repr():
+    # Given
+    wrapper = RowWrapper(["kind", "rating"], row_tuple_class_name="Sausage")
+
+    # When
+    row = wrapper(["Cumberland", 10])
+
+    # Then
+    assert_that(row, has_repr("Sausage(kind='Cumberland', rating=10)"))

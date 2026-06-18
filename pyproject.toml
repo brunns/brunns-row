@@ -42,6 +42,7 @@ exclude-newer = "7 days"
 
 [dependency-groups]
 dev = [
+    "brunns-matchers>=3.2",
     "contexttimer>=0.3",
     "furo>=2025.12.19",
     "pyright>=1.1.409",
@@ -62,7 +63,7 @@ testpaths = ["tests"]
 [tool.coverage.run]
 branch = true
 source = ["src"]
-omit = ["*/matcher.py"]
+omit = ["src/brunns/__init__.py"]
 
 [tool.coverage.report]
 fail_under = 100
