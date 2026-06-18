@@ -26,14 +26,26 @@ class RowWrapper:
 
     By default, these row wrappers are immutable, unordered, and don't use slots.
 
-    >>> cursor = conn.cursor()
-    >>> cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
-    >>> wrapper = RowWrapper(cursor.description)
-    >>> rows = [wrapper.wrap(row) for row in cursor.fetchall()]
+    >>> with closing(sqlite3.connect(":memory:")) as conn:
+    >>>      cursor = conn.cursor()
+    >>>      cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
+    >>>      wrapper = RowWrapper(cursor.description, row_tuple_class_name="Sausage")
+    >>>      rows = [wrapper.wrap(row) for row in cursor.fetchall()]
+    >>>      for row in rows:
+    >>>          print(f"{row.kind}, {row.rating}")
+    Cumberland, 10
+    >>>          print(f"{row}")
+    Sausage(kind='Cumberland', rating=10)
 
-    >>> reader = csv.DictReader(csv_file)
-    >>> wrapper = RowWrapper(reader.fieldnames)
-    >>> rows = [wrapper.wrap(row) for row in reader]
+    >>> with Path("sausages.csv").open() as f:
+    >>>      reader = csv.DictReader(f)
+    >>>      wrapper = RowWrapper(reader.fieldnames, row_tuple_class_name="Sausage")
+    >>>      rows = [wrapper.wrap(row) for row in reader]
+    >>>      for row in rows:
+    >>>          print(f"{row.kind}, {row.rating}")
+    Cumberland, 10
+    >>>          print(f"{row}")
+    Sausage(kind='Cumberland', rating=10)
     """
 
     def __init__(
