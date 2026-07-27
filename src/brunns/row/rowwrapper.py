@@ -56,6 +56,7 @@ class RowWrapper:
         ],  # TODO: We can use "Sequence[str | tuple[str, *tuple[Any, ...]]]" once we drop Python 3.10 support.
         force_lower_case_ids: bool = False,
         row_tuple_class_name: str = "Row",
+        *,
         mutable: bool = False,
         ordered: bool = False,
         slots: bool = False,
