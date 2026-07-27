@@ -81,6 +81,10 @@ exclude = ["docs/"]
 [tool.ruff.lint.mccabe]
 max-complexity = 5
 
+[tool.ruff.lint.flake8-copyright]
+min-file-size = 64
+
 [tool.ruff.lint.per-file-ignores]
 "tests/*" = ["S101", "N802", "PT003"]
 "docs/*" = ["ERA001", "A001", "PTH", "SIM115", "INP001"]
+"src/brunns/row/rowwrapper.py" = ["PLR0917"]
