@@ -1,51 +1,37 @@
 version: 2
+
 updates:
+
   - package-ecosystem: "uv"
     directory: "/"
     allow:
       - dependency-type: "all"
     schedule:
       interval: "weekly"
-    open-pull-requests-limit: 10
     labels:
       - "dependencies"
       - "python"
     commit-message:
       prefix: "chore(deps)"
-      include: "scope"
-    groups:
-      production:
-        patterns:
-          - "*"
-        exclude-patterns:
-          - "pytest*"
-          - "ruff"
-          - "mypy"
-          - "sphinx*"
-          - "furo"
-      dev-dependencies:
-        patterns:
-          - "pytest*"
-          - "ruff"
-          - "mypy"
-          - "sphinx*"
-          - "furo"
     assignees:
-        - "brunns"
+      - "brunns"
     cooldown:
       default-days: 7
 
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
-      interval: "weekly"
+      interval: "monthly"
     labels:
       - "dependencies"
       - "github-actions"
     commit-message:
       prefix: "chore(ci)"
-      include: "scope"
     assignees:
       - "brunns"
     cooldown:
       default-days: 7
+    groups:
+      all_gha:
+        patterns:
+          - "*"
