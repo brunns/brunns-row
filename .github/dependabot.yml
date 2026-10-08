@@ -2,6 +2,7 @@ version: 2
 
 updates:
 
+  # Python dependencies
   - package-ecosystem: "uv"
     directory: "/"
     allow:
@@ -12,24 +13,24 @@ updates:
       - "dependencies"
       - "python"
     commit-message:
-      prefix: "chore(deps)"
+      prefix: "chore (dependencies)"
     assignees:
       - "brunns"
     cooldown:
       default-days: 7
     groups:
-      dev:
+      development:
         dependency-type: "development"
 
+  # CI/CD - Github Actions
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
       interval: "monthly"
     labels:
-      - "dependencies"
       - "github-actions"
     commit-message:
-      prefix: "chore(ci)"
+      prefix: "chore (gha)"
     assignees:
       - "brunns"
     cooldown:
