@@ -44,12 +44,14 @@ exclude-newer = "7 days"
 dev = [
     "brunns-matchers>=3.2",
     "contexttimer>=0.3",
-    "furo>=2025.12.19",
     "pyright>=1.1.409",
     "pyhamcrest>=2.0",
     "pytest-cov>=2.5",
     "pytest>=9.0",
     "ruff>=0.15.12",
+]
+docs = [
+    "furo>=2025.12.19",
     "sphinx>=8.0",
     "sphinx-autodoc-typehints>=3.0",
 ]
