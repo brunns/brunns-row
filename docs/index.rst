@@ -15,8 +15,10 @@ inspired by Greg Stein’s lovely `dtuple module`_.
 Installation
 ------------
 
-Install from `Pypi <https://pypi.org/project/brunns-row/>`_ as usual, using pip , `tox`_, or ``setup.py``.
+Install from `Pypi <https://pypi.org/project/brunns-matchers/>`_ as usual, using `uv`_, `pip`_ , `tox`_, ``setup.py``, or whatever.
 
+.. _uv: https://docs.astral.sh/uv
+.. _pip: https://pip.pypa.io
 .. _tox: https://tox.readthedocs.io
 
 Usage
