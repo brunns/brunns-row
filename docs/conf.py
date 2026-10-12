@@ -24,9 +24,9 @@ copyright = "2019, Simon Brunning"
 author = "Simon Brunning"
 
 # The short X.Y version
-version = "2.2"
+version = "2.3"
 # The full version, including alpha/beta/rc tags
-release = "2.2.0"
+release = "2.3.0"
 
 
 # -- General configuration ---------------------------------------------------
