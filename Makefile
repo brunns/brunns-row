@@ -7,11 +7,11 @@ test: ## Run tests
 	uv run pytest
 
 test-all-python: ## Run tests on all Python versions
-	uv run --python 3.10 pytest
 	uv run --python 3.11 pytest
 	uv run --python 3.12 pytest
 	uv run --python 3.13 pytest
 	uv run --python 3.14 pytest
+	uv run --python 3.15 pytest
 
 coverage: ## Test coverage report
 	uv run pytest --cov=src/brunns --cov-report=term-missing --cov-report=html
