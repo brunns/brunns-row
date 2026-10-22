@@ -1,6 +1,8 @@
 # Copyright 2018-2026 Simon Brunning
 import csv
 import logging
+from collections.abc import Iterable
+from sqlite3 import Connection
 
 from hamcrest import assert_that, contains_exactly, has_properties
 
@@ -9,7 +11,7 @@ from brunns.row.rowwrapper import RowWrapper
 logger = logging.getLogger(__name__)
 
 
-def test_dbapi_row_wrapping(db):
+def test_dbapi_row_wrapping(db: Connection):
     # Given
     cursor = db.cursor()
     cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
@@ -29,7 +31,7 @@ def test_dbapi_row_wrapping(db):
     )
 
 
-def test_wrap_all(db):
+def test_wrap_all(db: Connection):
     # Given
     cursor = db.cursor()
     cursor.execute("SELECT kind, rating FROM sausages ORDER BY rating DESC;")
@@ -49,7 +51,7 @@ def test_wrap_all(db):
     )
 
 
-def test_csv_wrapping(csv_file):
+def test_csv_wrapping(csv_file: Iterable[str]):
     # Given
     reader = csv.DictReader(csv_file)
 

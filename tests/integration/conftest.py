@@ -1,7 +1,7 @@
 # Copyright 2018-2026 Simon Brunning
 import logging
 import sqlite3
-from collections.abc import Generator
+from collections.abc import Generator, Iterable
 from contextlib import closing
 from io import StringIO
 from sqlite3 import Connection
@@ -25,6 +25,6 @@ def db() -> Generator[Connection]:
 
 
 @pytest.fixture(scope="function")
-def csv_file() -> StringIO:
+def csv_file() -> Iterable[str]:
     data = "kind,rating\ncumberland,10\nlincolnshire,9\nvegetarian,0\n"
     return StringIO(data)
